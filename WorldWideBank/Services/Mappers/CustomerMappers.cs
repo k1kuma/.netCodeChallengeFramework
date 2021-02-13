@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using WorldWideBankSample.Domain;
-using WorldWideBankSample.Dtos;
+﻿using AutoMapper;
+using WorldWideBank.Domain;
+using WorldWideBank.Dtos;
 
-namespace WorldWideBankSample.Services.Mappers
+namespace WorldWideBank.Services.Mappers
 {
     public class CustomerMappers: Profile
     {

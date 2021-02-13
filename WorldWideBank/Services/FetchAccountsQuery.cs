@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using NHibernate;
 using NHibernate.Linq;
-using WorldWideBankSample.Domain;
-using WorldWideBankSample.Dtos;
+using WorldWideBank.Domain;
+using WorldWideBank.Dtos;
 
-namespace WorldWideBankSample.Services
+namespace WorldWideBank.Services
 {
     public interface IFetchAccountsQuery
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace WorldWideBankSample.Data.Core
+namespace WorldWideBank.Data.Core
 {
     public class UnitOfWorkMiddleware
     {

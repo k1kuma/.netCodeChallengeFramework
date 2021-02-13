@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WorldWideBankSample.Data.Core
+namespace WorldWideBank.Data.Core
 {
     public class UnitOfWorkNotStartedException: Exception
     {

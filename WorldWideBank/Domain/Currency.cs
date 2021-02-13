@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WorldWideBankSample.Domain.Core;
+﻿using WorldWideBank.Domain.Core;
 
-namespace WorldWideBankSample.Domain
+namespace WorldWideBank.Domain
 {
     public class Currency: Entity
     {

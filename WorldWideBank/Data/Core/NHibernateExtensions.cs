@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace WorldWideBankSample.Data.Core
+namespace WorldWideBank.Data.Core
 {
     public static class NHibernateExtensions
     {

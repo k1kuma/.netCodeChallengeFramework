@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
-using WorldWideBankSample.Dtos;
-using WorldWideBankSample.Services;
+using Microsoft.AspNetCore.Mvc;
+using WorldWideBank.Dtos;
+using WorldWideBank.Services;
 
-namespace WorldWideBankSample.Controllers
+namespace WorldWideBank.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Threading.Tasks;
-using WorldWideBankSample.Domain.Core;
+using WorldWideBank.Domain.Core;
 
-namespace WorldWideBankSample.Domain
+namespace WorldWideBank.Domain
 {
     public enum TransactionType { Debit, Credit };
 

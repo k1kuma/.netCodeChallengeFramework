@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WorldWideBankSample.Domain.Core;
+﻿using System.Collections.Generic;
+using WorldWideBank.Domain.Core;
 
-namespace WorldWideBankSample.Domain
+namespace WorldWideBank.Domain
 {
     public class Customer: Entity
     {

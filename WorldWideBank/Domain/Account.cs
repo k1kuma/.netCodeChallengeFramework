@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Security.Permissions;
-using System.Threading.Tasks;
-using NHibernate.Type;
-using WorldWideBankSample.Domain.Core;
+using WorldWideBank.Domain.Core;
 
-namespace WorldWideBankSample.Domain
+namespace WorldWideBank.Domain
 {
     public class Account: Entity
     {
         public virtual IList <Customer> Owners { get; init; }
         public virtual decimal Balance { get; protected set; } = 0.0M;
-        public virtual IList<Transaction> Transactions { get; init; }
+        public virtual IList<Transaction> Transactions { get; init; } = new List<Transaction>();
         public virtual Currency Currency { get; init; }
         public virtual int AccountNumber { get; init; }
 

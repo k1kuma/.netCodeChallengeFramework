@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using WorldWideBankSample.Services;
+using WorldWideBank.Services;
 
-namespace WorldWideBankSample.Utility.Ioc
+namespace WorldWideBank.Utility.Ioc
 {
     public static class IocExtensions
     {

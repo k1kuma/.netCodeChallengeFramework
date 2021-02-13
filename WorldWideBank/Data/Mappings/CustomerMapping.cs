@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WorldWideBankSample.Domain;
+﻿using WorldWideBank.Domain;
 
-namespace WorldWideBankSample.Data.Mappings
+namespace WorldWideBank.Data.Mappings
 {
     public class CustomerMapping: NHibernateClassMapping<Customer>
     {

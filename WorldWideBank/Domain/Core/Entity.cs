@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WorldWideBankSample.Utility;
+using WorldWideBank.Utility;
 
-namespace WorldWideBankSample.Domain.Core
+namespace WorldWideBank.Domain.Core
 {
     public interface IEntity
     {

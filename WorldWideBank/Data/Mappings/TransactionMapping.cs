@@ -1,8 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using WorldWideBankSample.Domain;
-using FluentNHibernate.Mapping;
+﻿using WorldWideBank.Domain;
 
-namespace WorldWideBankSample.Data.Mappings
+namespace WorldWideBank.Data.Mappings
 {
     public class TransactionMapping: NHibernateClassMapping<Transaction>
     {

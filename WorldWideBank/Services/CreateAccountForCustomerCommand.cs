@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using NHibernate;
 using NHibernate.Linq;
-using WorldWideBankSample.CustomExceptions;
-using WorldWideBankSample.Domain;
-using WorldWideBankSample.Dtos;
+using WorldWideBank.CustomExceptions;
+using WorldWideBank.Domain;
+using WorldWideBank.Dtos;
 
-namespace WorldWideBankSample.Services
+namespace WorldWideBank.Services
 {
     public interface ICreateAccountCommand
     {
@@ -29,7 +29,7 @@ namespace WorldWideBankSample.Services
         {
             var currency= await _session.Query<Currency>().SingleAsync(x => x.Code == accountDto.CurrencyCode);
 
-            var account = await _session.Query<Account>().SingleAsync(x =>
+            var account = await _session.Query<Account>().SingleOrDefaultAsync(x =>
                 x.AccountNumber == accountDto.AccountNumber);
 
             if (account != null)

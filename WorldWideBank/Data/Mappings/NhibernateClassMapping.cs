@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
-using WorldWideBankSample.Domain.Core;
+using WorldWideBank.Domain.Core;
 
-namespace WorldWideBankSample.Data.Mappings
+namespace WorldWideBank.Data.Mappings
 {
     public class NHibernateClassMapping<T> : ClassMap<T> where T : Entity
     {

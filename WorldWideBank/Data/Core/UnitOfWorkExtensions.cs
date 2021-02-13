@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace WorldWideBankSample.Data.Core
+namespace WorldWideBank.Data.Core
 {
     public static class UnitOfWorkExtensions
     {

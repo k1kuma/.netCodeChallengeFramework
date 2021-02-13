@@ -3,9 +3,9 @@ using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
-using WorldWideBankSample.Data.Mappings;
+using WorldWideBank.Data.Mappings;
 
-namespace WorldWideBankSample.Data.Core
+namespace WorldWideBank.Data.Core
 {
     public interface IDatabaseSessionFactory
     {

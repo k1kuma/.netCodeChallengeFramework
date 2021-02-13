@@ -3,7 +3,7 @@ using System.Data;
 using System.Threading.Tasks;
 using NHibernate;
 
-namespace WorldWideBankSample.Data.Core
+namespace WorldWideBank.Data.Core
 {
     public interface IUnitOfWork : IDisposable
     {

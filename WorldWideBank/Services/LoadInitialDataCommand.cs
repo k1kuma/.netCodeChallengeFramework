@@ -1,9 +1,13 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using NHibernate;
-using WorldWideBankSample.Domain;
+using WorldWideBank.Data.Core;
+using WorldWideBank.Domain;
 
-namespace WorldWideBankSample.Services
+namespace WorldWideBank.Services
 {
     public interface ILoadInitialDataCommand
     {
@@ -12,29 +16,45 @@ namespace WorldWideBankSample.Services
 
     public class LoadInitialDataCommand : ILoadInitialDataCommand
     {
-        private readonly ISession _session;
+        private readonly IConfiguration _configuration;
 
-        public LoadInitialDataCommand(ISession session)
+        public LoadInitialDataCommand(IConfiguration configuration)
         {
-            _session = session;
+            _configuration = configuration;
         }
 
         public async Task Execute()
         {
-            var canadianCurrency = new Currency {Code = "CAD", Value = 100, Name = "Canadian Dollar"};
-            var mexicanCurrency= new Currency {Code = "MXN", Value = 50, Name = "Mexican Peso"};
-            var usaCurrency = new Currency {Code = "USD", Value = 200, Name = "US Dollar"};
+            try
+            {
+                var databaseSessionFactory = new DatabaseSessionFactory();
+                using var session =
+                    databaseSessionFactory.Create(_configuration.GetConnectionString("DefaultConnection"));
 
-            if(await _session.Query<Currency>().SingleOrDefaultAsync(x => x.Code == canadianCurrency.Code) == null)
-                await _session.SaveAsync(canadianCurrency);
+                using var transaction = session.BeginTransaction();
+                transaction.Begin();
+                var canadianCurrency = new Currency {Code = "CAD", Value = 100, Name = "Canadian Dollar"};
+                var mexicanCurrency = new Currency {Code = "MXN", Value = 50, Name = "Mexican Peso"};
+                var usaCurrency = new Currency {Code = "USD", Value = 200, Name = "US Dollar"};
 
-            if(await _session.Query<Currency>().SingleOrDefaultAsync(x => x.Code == mexicanCurrency.Code) == null)
-                await _session.SaveAsync(mexicanCurrency);
+                if (session.Query<Currency>().SingleOrDefault(x => x.Code == canadianCurrency.Code) == null)
+                {
+                    session.Save(canadianCurrency);
+                }
 
-            if(await _session.Query<Currency>().SingleOrDefaultAsync(x => x.Code == usaCurrency.Code) == null)
-                await _session.SaveAsync(usaCurrency);
+                if (session.Query<Currency>().SingleOrDefault(x => x.Code == mexicanCurrency.Code) == null)
+                    session.Save(mexicanCurrency);
 
-            await _session.FlushAsync();
+                if (session.Query<Currency>().SingleOrDefault(x => x.Code == usaCurrency.Code) == null)
+                    session.Save(usaCurrency);
+
+                await session.FlushAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

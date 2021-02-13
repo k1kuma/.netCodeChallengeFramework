@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using WorldWideBankSample.Domain;
-using WorldWideBankSample.Dtos;
-using WorldWideBankSample.Services;
+using Microsoft.AspNetCore.Mvc;
+using WorldWideBank.Dtos;
+using WorldWideBank.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace WorldWideBankSample.Controllers
+namespace WorldWideBank.Controllers
 {
     [Route("[controller]")]
     [ApiController]

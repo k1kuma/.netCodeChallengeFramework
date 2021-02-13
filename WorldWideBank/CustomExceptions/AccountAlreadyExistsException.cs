@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WorldWideBankSample.CustomExceptions
+namespace WorldWideBank.CustomExceptions
 {
     public class AccountAlreadyExistsException: Exception
     {

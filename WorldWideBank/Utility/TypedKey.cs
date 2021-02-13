@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
-namespace WorldWideBankSample.Utility
+namespace WorldWideBank.Utility
 {
     public interface IKey<T>
     {

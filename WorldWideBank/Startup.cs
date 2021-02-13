@@ -1,18 +1,14 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using WorldWideBankSample.Data;
-using WorldWideBankSample.Data.Core;
-using WorldWideBankSample.Services;
-using WorldWideBankSample.Utility.Ioc;
+using WorldWideBank.Data.Core;
+using WorldWideBank.Utility.Ioc;
 
-namespace WorldWideBankSample
+namespace WorldWideBank
 {
     public class Startup
     {

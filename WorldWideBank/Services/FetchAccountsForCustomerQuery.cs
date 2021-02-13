@@ -2,10 +2,10 @@
 using System.Linq;
 using AutoMapper;
 using NHibernate;
-using WorldWideBankSample.Domain;
-using WorldWideBankSample.Dtos;
+using WorldWideBank.Domain;
+using WorldWideBank.Dtos;
 
-namespace WorldWideBankSample.Services
+namespace WorldWideBank.Services
 {
     public interface IFetchAccountsForCustomerQuery
     {
