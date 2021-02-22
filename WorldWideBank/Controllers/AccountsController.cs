@@ -30,7 +30,6 @@ namespace WorldWideBank.Controllers
         [HttpGet]
         public async Task<ICollection<AccountDto>> Get()
         {
-
             return await _fetchAccountsQuery.Fetch();
         }
 
