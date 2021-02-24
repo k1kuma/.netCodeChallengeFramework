@@ -19,7 +19,6 @@ namespace WorldWideBankTests.Integration
 {
     class AccountsControllerSpec: IntegrationTest
     {
-
         [Test]
         public async Task WhenCreatingAnAccountwithOneOwner_ResultShouldBeOk()
         {
@@ -60,7 +59,6 @@ namespace WorldWideBankTests.Integration
                 CustomerId = 93,
                 Name = "Jane Doe"
             };
-
 
             ICreateOrUpdateCustomerCommand _createOrUpdateCustomerCommand = (ICreateOrUpdateCustomerCommand)_server.Services.GetService(typeof(ICreateOrUpdateCustomerCommand));
 
@@ -115,6 +113,9 @@ namespace WorldWideBankTests.Integration
         [Test]
         public async Task TestCaseOneFromAssessment_GoodCase()
         {
+            // **Case 1:** 
+            // Customer: Stewie Griffin Customer ID: 777 Account Number: 1234
+            // Initial Balance for account number 1234: $100.00 CAD
             var customer = new CustomerDto
             {
                 CustomerId = 777,
@@ -123,61 +124,82 @@ namespace WorldWideBankTests.Integration
 
             ICreateOrUpdateCustomerCommand _createOrUpdateCustomerCommand = 
                 (ICreateOrUpdateCustomerCommand)_server.Services.GetService(typeof(ICreateOrUpdateCustomerCommand));
+
             await _createOrUpdateCustomerCommand.Execute(customer);
 
-            var accountToCreate = new AccountDto
+            var accountToCreateAndUpdate = new AccountDto
             {
                 AccountNumber = 1234,
-                Balance = 500.0M,
+                Balance = 100.0M,
                 CurrencyCode = "CAD",
                 Owners = new List<CustomerDto> { customer }
             };
 
-            // Update BE with new account
-            var response = await _client.PostAsync("/Accounts", GetStringContent(accountToCreate));
-
-            IFetchAccountQuery _fetchAccountQuery = (IFetchAccountQuery) _server.Services.GetService(typeof(IFetchAccountQuery));
-            var retrievedAccount = await _fetchAccountQuery.Fetch(accountToCreate.AccountNumber);
-
+            var response = await _client.PostAsync("/Accounts", GetStringContent(accountToCreateAndUpdate));
             Assert.DoesNotThrow(() => response.EnsureSuccessStatusCode());
-            Assert.AreEqual(accountToCreate.AccountNumber, retrievedAccount.AccountNumber);
-            Assert.AreEqual(accountToCreate.Balance, retrievedAccount.Balance);
-            Assert.AreEqual(accountToCreate.CurrencyCode, retrievedAccount.CurrencyCode);
+
+            // // Stewie Griffin deposits $300.00 USD to account number 1234.
+            var amount = 300.0M;
+            var currency = "USD";
+            var description = "Stewie Griffin deposits $300.00 USD to account number 1234";
+
+            IPerformTransactionCommand _performTransactionCommand = 
+                (IPerformTransactionCommand) _server.Services.GetService(typeof(IPerformTransactionCommand));
+            var retrievedAccount = await _performTransactionCommand.Execute("deposit", amount, customer, description, accountToCreateAndUpdate, currency);
+
+            Assert.AreEqual(1234, retrievedAccount.AccountNumber);
+            Assert.AreEqual(700, retrievedAccount.Balance);
+            Assert.AreEqual("CAD", retrievedAccount.CurrencyCode);
+
+            IFetchAccountQuery _fetchAccountQuery = 
+                (IFetchAccountQuery) _server.Services.GetService(typeof(IFetchAccountQuery));
         }
 
-        [Test]
-        public async Task TestCaseTwoFromAssessment_GoodCase()
-        {
-            var customer = new CustomerDto
-            {
-                CustomerId = 777,
-                Name = "Stewie Griffin"
-            };
+        // [Test]
+        // public async Task TestCaseTwoFromAssessment_GoodCase()
+        // {
+        //     var customer = new CustomerDto
+        //     {
+        //         CustomerId = 777,
+        //         Name = "Stewie Griffin"
+        //     };
 
-            ICreateOrUpdateCustomerCommand _createOrUpdateCustomerCommand = 
-                (ICreateOrUpdateCustomerCommand)_server.Services.GetService(typeof(ICreateOrUpdateCustomerCommand));
-            await _createOrUpdateCustomerCommand.Execute(customer);
+        //     ICreateOrUpdateCustomerCommand _createOrUpdateCustomerCommand = 
+        //         (ICreateOrUpdateCustomerCommand)_server.Services.GetService(typeof(ICreateOrUpdateCustomerCommand));
 
-            var accountToCreate = new AccountDto
-            {
-                AccountNumber = 1234,
-                Balance = 500.0M,
-                CurrencyCode = "CAD",
-                Owners = new List<CustomerDto> { customer }
-            };
+        //     await _createOrUpdateCustomerCommand.Execute(customer);
 
-            // Need to perform Deposit now before retrieving account to pull-up details
+        //     var accountToCreate = new AccountDto
+        //     {
+        //         AccountNumber = 1234,
+        //         Balance = 500.0M,
+        //         CurrencyCode = "CAD",
+        //         Owners = new List<CustomerDto> { customer }
+        //     };
 
-            // Update BE with new account
-            var response = await _client.PostAsync("/Accounts", GetStringContent(accountToCreate));
+        //     // Need to perform Deposit now before retrieving account to pull-up details
 
-            IFetchAccountQuery _fetchAccountQuery = (IFetchAccountQuery) _server.Services.GetService(typeof(IFetchAccountQuery));
-            var retrievedAccount = await _fetchAccountQuery.Fetch(accountToCreate.AccountNumber);
 
-            Assert.DoesNotThrow(() => response.EnsureSuccessStatusCode());
-            Assert.AreEqual(accountToCreate.AccountNumber, retrievedAccount.AccountNumber);
-            Assert.AreEqual(accountToCreate.Balance, retrievedAccount.Balance);
-            Assert.AreEqual(accountToCreate.CurrencyCode, retrievedAccount.CurrencyCode);
-        }
+        //     // Update BE with new account
+        //     var response = await _client.PostAsync("/Accounts", GetStringContent(accountToCreate));
+
+        //     IFetchAccountQuery _fetchAccountQuery = 
+        //         (IFetchAccountQuery) _server.Services.GetService(typeof(IFetchAccountQuery));
+
+        //     var retrievedAccount = await _fetchAccountQuery.Fetch(accountToCreate.AccountNumber);
+
+        // Console.WriteLine(accountToCreateAndUpdate.AccountNumber);
+        // Console.WriteLine(accountToCreateAndUpdate.Balance);
+        // Console.WriteLine(accountToCreateAndUpdate.CurrencyCode);
+
+        // Console.WriteLine(retrievedAccount.AccountNumber);
+        // Console.WriteLine(retrievedAccount.Balance);
+        // Console.WriteLine(retrievedAccount.CurrencyCode);
+
+        //     Assert.DoesNotThrow(() => response.EnsureSuccessStatusCode());
+        //     Assert.AreEqual(accountToCreate.AccountNumber, retrievedAccount.AccountNumber);
+        //     Assert.AreEqual(accountToCreate.Balance, retrievedAccount.Balance);
+        //     Assert.AreEqual(accountToCreate.CurrencyCode, retrievedAccount.CurrencyCode);
+        // }
     }
 }
