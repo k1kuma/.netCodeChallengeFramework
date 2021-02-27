@@ -43,6 +43,7 @@ namespace WorldWideBank.Domain
             if (transactionToAttempt.Amount.Value <= Balance && Owners.Contains(owner))
             {
                 Transactions.Add(transactionToAttempt);
+                Balance -= transactionToAttempt.Amount.Value;
                 return transactionToAttempt;
             }
 

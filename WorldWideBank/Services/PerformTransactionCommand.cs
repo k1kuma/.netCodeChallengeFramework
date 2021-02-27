@@ -31,20 +31,17 @@ namespace WorldWideBank.Services
         public async Task<AccountDto> Execute(string type, decimal amount, CustomerDto customerDto, string description,
             AccountDto accountDto, string currency = "CAD")
         {
-            // var accounts = _session.Query<Customer>().SingleOrDefault(x => x.Id == customerDto.CustomerId)?.Accounts;
-            // if (accounts == null)
-            // {
-            //     throw new AccountNotFoundException(accountDto.AccountNumber);
-            // }
-            // var account = accounts.Cast<Account>().SingleOrDefault(i =>
-            //     i.AccountNumber == accountDto.AccountNumber);
-
             var account = await _session.Query<Account>().Where(x => x.AccountNumber == accountDto.AccountNumber).SingleOrDefaultAsync();
             if (account == null)
             {
                 throw new AccountNotFoundException(accountDto.AccountNumber);
             }
-            var currencyObj = new Currency { Code = "CAD", Name = "United States Dollar", Value = 100 };;
+
+            var customer = await _session.Query<Customer>()
+                .SingleOrDefaultAsync(x => x.CustomerId == customerDto.CustomerId) 
+                    ?? new Customer { CustomerId = customerDto.CustomerId };
+
+            Currency currencyObj = new Currency { Code = "CAD", Name = "United States Dollar", Value = 100 };;
             if (currency == "USD")
             {
                 currencyObj = new Currency { Code = "USD", Name = "United States Dollar", Value = 200 };
@@ -59,7 +56,7 @@ namespace WorldWideBank.Services
             type = type.ToLower();
             if (type.ToLower() == "withdraw")
             {
-                account.Withdraw(moneyObj, _mapper.Map<Customer>(customerDto), description);
+                account.Withdraw(moneyObj, customer, description);
             }
             else if (type.ToLower() == "deposit")
             {
