@@ -15,12 +15,15 @@ namespace WorldWideBank.Controllers
         private readonly IFetchAccountQuery _fetchAccountQuery;
         private readonly IFetchAccountsQuery _fetchAccountsQuery;
         private readonly ICreateAccountCommand _createAccountCommand;
+        private readonly IPerformTransactionCommand _performTransactionCommand;
 
-        public AccountsController(IFetchAccountQuery fetchAccountQuery, IFetchAccountsQuery fetchAccountsQuery, ICreateAccountCommand createAccountCommand)
+        public AccountsController(IFetchAccountQuery fetchAccountQuery, IFetchAccountsQuery fetchAccountsQuery,
+            ICreateAccountCommand createAccountCommand, IPerformTransactionCommand performTransactionCommand)
         {
             _fetchAccountQuery = fetchAccountQuery;
             _fetchAccountsQuery = fetchAccountsQuery;
             _createAccountCommand = createAccountCommand;
+            _performTransactionCommand = performTransactionCommand;
         }
 
         /// <summary>
@@ -54,5 +57,17 @@ namespace WorldWideBank.Controllers
         {
             return await _createAccountCommand.Execute(accountDto);
         }
+
+        // /// <summary>
+        // /// Perform Transaction on Account
+        // /// </summary>
+        // /// <returns></returns>
+        // [HttpPost]
+        // public async Task<AccountDto> PerformTransaction(string type, decimal amount, CustomerDto customerDto, string description,
+        //     AccountDto accountDto, string currency = "CAD", AccountDto toAccountDto = null)
+        // {
+        //     return await _performTransactionCommand.PerformTransaction(type, amount, customerDto, description, accountDto, currency, toAccountDto);
+        // }
+
     }
 }

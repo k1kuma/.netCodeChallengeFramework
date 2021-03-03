@@ -40,6 +40,11 @@ namespace WorldWideBank.Domain
         {
             var transactionToAttempt = CreateTransaction(amount, TransactionType.Credit, description);
 
+            if (!Owners.Contains(owner))
+            {
+                throw new InvalidOperationException($"Customer {owner.CustomerId} not authorized to perform withdraw or transfer out of this account!");
+            }
+
             if (transactionToAttempt.Amount.Value <= Balance && Owners.Contains(owner))
             {
                 Transactions.Add(transactionToAttempt);
