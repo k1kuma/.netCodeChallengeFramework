@@ -34,7 +34,6 @@ namespace WorldWideBank.Controllers
             return await _fetchCustomerQuery.Fetch(customerId);
         }
 
-
         [HttpPut]
         public async Task<CustomerDto> Put(CustomerDto customerDto)
         {

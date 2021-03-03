@@ -23,6 +23,7 @@ namespace WorldWideBank.Services
             _session = session;
             _mapper = mapper;
         }
+
         public async Task<AccountDto> Fetch(int accountNumber)
         {
             var accountDto = await _session.Query<Account>().Where(x => x.AccountNumber == accountNumber)

@@ -38,7 +38,8 @@ namespace WorldWideBank.Services
             }
 
             var customerIds = accountDto.Owners.Select(x => x.CustomerId);
-            var customers = await _session.Query<Customer>().Where(x => customerIds.Contains(x.CustomerId)).ToListAsync();
+            var customers = await _session.Query<Customer>()
+                .Where(x => customerIds.Contains(x.CustomerId)).ToListAsync();
 
             foreach (var accountDtoOwner in accountDto.Owners)
             {
@@ -49,7 +50,6 @@ namespace WorldWideBank.Services
             }
 
             account = new Account(accountDto.AccountNumber, currency, new Money { Currency = currency, Value = accountDto.Balance }, customers);
-            
 
             await _session.SaveAsync(account);
 

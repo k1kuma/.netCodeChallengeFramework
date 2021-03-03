@@ -27,7 +27,6 @@ namespace WorldWideBank.Services
         public async Task<ICollection<CustomerDto>> Fetch()
         {
             var customers = await _session.Query<Customer>().ToListAsync();
-
             return _mapper.Map<ICollection<CustomerDto>>(customers);
         }
     }
