@@ -31,6 +31,8 @@ namespace WorldWideBank.Services
         private async Task<Account> retrieveAccount(int accountNumber) {
             var account = await _session.Query<Account>().Where(x =>
                 x.AccountNumber == accountNumber).SingleOrDefaultAsync();
+
+            // Throw exception if account not found
             if (account == null)
             {
                 throw new AccountNotFoundException(accountNumber);
@@ -39,15 +41,18 @@ namespace WorldWideBank.Services
             return account;
         }
 
-        private async Task<Customer> retrieveCustomer(int customerID)
+        private async Task<Customer> retrieveCustomer(int customerID, Account account)
         {
             var customer = await _session.Query<Customer>()
                 .SingleOrDefaultAsync(x => x.CustomerId == customerID) 
                     ?? new Customer { CustomerId = customerID };
+
+            // Throw exception if customer not found
             if (customer == null)
             {
                 throw new CustomerNotFoundException(customerID);
             }
+
             return customer;
         }
  
@@ -55,7 +60,7 @@ namespace WorldWideBank.Services
             AccountDto accountDto, string currency = "CAD", AccountDto toAccountDto = null)
         {
             var account = await retrieveAccount(accountDto.AccountNumber);
-            var customer = await retrieveCustomer(customerDto.CustomerId);
+            var customer = await retrieveCustomer(customerDto.CustomerId, account);
 
             Currency currencyObj = new Currency { Code = "CAD", Name = "United States Dollar", Value = 100 };;
             if (currency == "USD")
@@ -77,6 +82,9 @@ namespace WorldWideBank.Services
             else if (type == "deposit")
             {
                 account.Deposit(moneyObj, description);
+            }
+            else if (type == "transfer" && toAccountDto == null) {
+                throw new NoDestinationAccountForTransferException();
             }
             else if (type == "transfer") {
                 // For Transfer, retrieve toAccount and credential before performing withdraw on 
